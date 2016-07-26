@@ -5,16 +5,29 @@
 		<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
 		<script src="./bower_components/jquery/dist/jquery.min.js"></script>
 	</head>
-	<body>
+	<body class="container">
 		<h1>Backbone List</h1>
 
-		<div id="bb-content">
-
+		<div class="table-responsive">
+			<table id="bb-content" class="table table-bordered table-striped table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Price</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+			</table>
 		</div>
 
 		<!-- js -->
 		<script src="./bower_components/underscore/underscore-min.js"></script>
 		<script src="./bower_components/backbone/backbone-min.js"></script>
+
+		<!-- js utils-->
+		<script src="./backbone/utils/mixins.js"></script>
 
 		<!-- js backbone app -->
 		<script src="./backbone/model.item.js"></script>

@@ -1,5 +1,7 @@
 var ItemsListView = Backbone.View.extend({
+  tagName: 'tbody',
   initialize: function(){
+    //this.addHead();
     //this.collection = ItemsList();
     this.collection.on('add', this.addOne, this);
     this.collection.on('reset', this.addAll, this);
@@ -10,6 +12,9 @@ var ItemsListView = Backbone.View.extend({
   },
   addAll: function(){
     this.collection.forEach(this.addOne, this);
+  },
+  addHead: function(){
+    this.$el.append(this.template);
   },
   render: function(){
     this.addAll();
