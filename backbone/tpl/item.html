@@ -2,7 +2,14 @@
 <td><%= _(title).capitalize() %></td>
 <td><%= _(description).capitalize() %></td>
 <td><span class="badge"><%= price %> €</span></td>
+<td><%= create_date %></td>
 <td>
-	<button type="button" class="bbi-approve btn btn-success btn-xs">Approve</button>
-	<button type="button" class="bbi-reject btn btn-danger btn-xs">Reject</button>
+	<button type="button" class="bbi-approve btn btn-success btn-xs"
+		<%= (approved == '1'? 'disabled="disabled"' : '') %>>
+		Approve
+	</button>
+	<button type="button" class="bbi-reject btn btn-danger btn-xs"
+		<%= (approved == '0'? 'disabled="disabled"' : '') %>>
+		Reject
+	</button>
 </td>

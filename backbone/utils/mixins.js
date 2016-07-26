@@ -5,8 +5,6 @@ _.mixin({
         var templateHtml = "";
         this.cache = this.cache || {};
 
-        console.log(data);
-
         if (this.cache[url]) {
             templateHtml = this.cache[url];
         } else {

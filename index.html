@@ -4,34 +4,58 @@
 		<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
 		<script src="./bower_components/jquery/dist/jquery.min.js"></script>
+
+		<style>
+			#bb-content .caret { cursor: pointer; }
+		</style>
 	</head>
 	<body class="container">
 		<h1>Backbone List</h1>
+
+		<div class="bb-navigation row">
+			<div class="col-sm-4">
+				Total rows: <span id="bbi-total-counter">0</span>
+			</div>
+			<div class="col-sm-6">
+				navigation
+			</div>
+		</div>
 
 		<div class="table-responsive">
 			<table id="bb-content" class="table table-bordered table-striped table-hover">
 				<thead>
 					<tr>
-						<th>#</th>
+						<th class="order" data-col="id" data-order-by="desc">
+							# <span class="caret"></span>
+						</th>
 						<th>Title</th>
 						<th>Description</th>
-						<th>Price</th>
+						<th class="order" data-col="price" data-order-by="desc">
+							Price <span class="caret"></span>
+						</th>
+						<th class="order" data-col="create_date" data-order-by="desc">
+							Date <span class="caret"></span>
+						</th>
 						<th>Action</th>
 					</tr>
 				</thead>
 			</table>
 		</div>
 
+		<div id="grid"></div>
+		<div id="paginator"></div>
+
 		<!-- js -->
 		<script src="./bower_components/underscore/underscore-min.js"></script>
 		<script src="./bower_components/backbone/backbone-min.js"></script>
+		<script src="./bower_components/backbone.paginator/lib/backbone.paginator.min.js"></script>
 
-		<!-- js utils-->
+		<!-- js utils -->
 		<script src="./backbone/utils/mixins.js"></script>
 
 		<!-- js backbone app -->
 		<script src="./backbone/model.item.js"></script>
-		<script src="./backbone/collection.list.js"></script>
+		<script src="./backbone/pageable.collection.list.js"></script>
 		<script src="./backbone/view.item.js"></script>
 		<script src="./backbone/view.list.js"></script>
 		<script src="./backbone/app.js"></script>

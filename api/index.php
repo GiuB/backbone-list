@@ -24,8 +24,9 @@ function sqlGetItems() {
 	$where = array();
 	$default_params = array(
 		'id' => '',
-		'allowed' => '',
-		'order_by' => ''
+		'approved' => '',
+		'order_by' => '',
+		'page' => 1
 	);
 
 	// Get params
@@ -38,36 +39,39 @@ function sqlGetItems() {
 	if (!empty($params['id']))
 		$where[] = "id = '" . intval($params['id']) . "'";
 
-	if (!empty($params['allowed']))
-		$where[] = "allowed = '" . intval($params['allowed']) . "'";
+	if (!empty($params['approved']))
+		$where[] = "approved = '" . intval($params['approved']) . "'";
+
+	$limit = "LIMIT " . PAGINATION_SIZE . "";
+	if (!empty($params['page']) && (int)$params['page'] > 1) {
+		$offset = (int)$params['page'] * PAGINATION_SIZE;
+		$limit = "LIMIT " . PAGINATION_SIZE . ", $offset";
+	}
 
 	if (!empty($where))
 		$where_sql = 'WHERE ' . implode(' AND', $where);
 
 	// Build SQL
-	$sql = "SELECT *
+	$sql = "SELECT SQL_CALC_FOUND_ROWS *
 		FROM items " .
-		$where_sql;
+		$where_sql .
+		$limit;
 
-	$res = $conn->query($sql);
-
-	// Build output
-	$data = (object) array();
-	if (!empty($params['id'])) {
-		while($row = $res->fetch_assoc()) {
-			$data = (object) $row;
-			break;
-		}
-		return $data;
-	}
+	$res   = $conn->query($sql);
+	$total = $conn->query("SELECT FOUND_ROWS() AS total");
+	$tot   = mysqli_fetch_array($total);
 
 	$data = array();
 	if ($res->num_rows > 0) {
 	    while($row = $res->fetch_assoc()) {
     		$data[] = (object) $row;
 	    }
-	    return $data;
     }
+
+    return (object) array(
+    	'total_count' => (int)$tot['total'],
+    	'items' => $data
+	);
 }
 
 if (empty($_POST)) {

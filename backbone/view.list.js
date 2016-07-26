@@ -5,6 +5,7 @@ var ItemsListView = Backbone.View.extend({
     //this.collection = ItemsList();
     this.collection.on('add', this.addOne, this);
     this.collection.on('reset', this.addAll, this);
+    this.collection.on('update', this.totalCounter, this);
   },
   addOne: function(item){
     var itemView = new ItemView({model: item});
@@ -15,6 +16,9 @@ var ItemsListView = Backbone.View.extend({
   },
   addHead: function(){
     this.$el.append(this.template);
+  },
+  totalCounter: function(){
+    $('#bbi-total-counter').text(this.collection.state.totalRecords);
   },
   render: function(){
     this.addAll();
