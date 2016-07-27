@@ -5,8 +5,8 @@ var ItemsList = Backbone.PageableCollection.extend({
     // Initial pagination states
     state: {
 		pageSize: 5,
-		sortKey: "updated",
-		order: 1
+		sortKey: "id",
+		order: "asc"
     },
 
     // You can remap the query parameters from `state` keys from

@@ -7,7 +7,7 @@ var ItemApp = new (Backbone.Router.extend({
 		this.itemsList = new ItemsList();
 		this.itemsList.fetch();
 		this.itemsView = new ItemsListView({collection: this.itemsList});
-		$('#bb-content').append(this.itemsView.el);
+		this.itemsView.render();
 	},
 	start: function(){
 		Backbone.history.start({pushState: true});
@@ -21,5 +21,5 @@ var ItemApp = new (Backbone.Router.extend({
 }));
 
 $(function(){
-	ItemApp.start()
+	ItemApp.start();
 });

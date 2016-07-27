@@ -24,15 +24,17 @@ function sqlGetItems() {
 	$where = array();
 	$default_params = array(
 		'id' => '',
+		'page' => 1,
 		'approved' => '',
-		'order_by' => '',
-		'page' => 1
+		'sort' => 'id',
+		'order' => 'ASC'
 	);
 
 	// Get params
+	$input = empty($_POST)? $_GET : $_POST;
 	foreach ($default_params as $key => $value) {
-		if ($_GET[$key] === 0 || !empty($_GET[$key]))
-			$params[$key] = $_GET[$key];
+		if ($input[$key] === 0 || !empty($input[$key]))
+			$params[$key] = $input[$key];
 	}
 
 	// Build Filters
@@ -42,19 +44,28 @@ function sqlGetItems() {
 	if (!empty($params['approved']))
 		$where[] = "approved = '" . intval($params['approved']) . "'";
 
+	// Build order
+	$order = "ORDER BY " . $default_params['sort'] . ' ' . $default_params['order'];
+	$sort_by = !empty($params['order'])? $params['order'] : $default_params['order'];
+	if (!empty($params['sort']))
+		$order = "ORDER BY " . $params['sort'] . ' ' . strtoupper($sort_by);
+
+	// Build limit
 	$limit = "LIMIT " . PAGINATION_SIZE . "";
 	if (!empty($params['page']) && (int)$params['page'] > 1) {
 		$offset = (int)$params['page'] * PAGINATION_SIZE;
 		$limit = "LIMIT " . PAGINATION_SIZE . ", $offset";
 	}
 
+	$where_sql = "";
 	if (!empty($where))
 		$where_sql = 'WHERE ' . implode(' AND', $where);
 
 	// Build SQL
 	$sql = "SELECT SQL_CALC_FOUND_ROWS *
-		FROM items " .
-		$where_sql .
+		FROM items" . " " .
+		$where_sql . " " .
+		$order . " " .
 		$limit;
 
 	$res   = $conn->query($sql);

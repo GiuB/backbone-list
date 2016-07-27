@@ -1,35 +1,62 @@
 var ItemsListView = Backbone.View.extend({
+  rootID: 'bb-content',
   tagName: 'tbody',
+  events: {
+    'click th.order': 'sortUpdate'
+  },
+
   initialize: function(){
-    //this.addHead();
-    //this.collection = ItemsList();
     this.collection.on('add', this.addOne, this);
     this.collection.on('reset', this.addAll, this);
-    this.collection.on('update', this.totalCounter, this);
+    this.collection.on('update', this.render, this);
+    this.watch();
   },
+
+  watch: function() {
+    var self = this;
+    $('#bb-content th.order').click(function() {
+      self.sortUpdate($(this));
+    });
+  },
+
   addOne: function(item){
     var itemView = new ItemView({model: item});
     this.$el.append(itemView.render().el);
   },
+
   addAll: function(){
     this.collection.forEach(this.addOne, this);
   },
-  addHead: function(){
-    this.$el.append(this.template);
+
+  sortUpdate: function(col) {
+    var order = $(col).attr('data-order') != 'asc'? 'asc' : 'desc';
+
+    // Reset caret orientation
+    $('#' + this.rootID + ' th.order').attr('data-order', 'asc');
+
+    // Update $col data
+    $(col).attr('data-order', order);
+
+    // Prepare pagination sorting
+    this.collection.state.sortKey = col.data('sort');
+    this.collection.state.order   = order === 'desc'? 1 : 'asc';
+
+    // Fetch data
+    this.collection.fetch();
   },
-  totalCounter: function(){
-    $('#bbi-total-counter').text(this.collection.state.totalRecords);
-  },
+
   render: function(){
+    // Clean rows html
+    $('#' + this.rootID + " " + this.tagName).empty();
+
+    // Prepare all items
     this.addAll();
+
+    // Refresh total counter
+    $('#bbi-total-counter').text(this.collection.state.totalRecords);
+
+    // Add all items to html
+    $('#' + this.rootID).append(this.$el);
   }
-});
 
-/*
-var itemList      = new ItemList();
-var itemsListView = new ItemsListView({
-  collection: itemList
 });
-
-itemList.fetch();
-itemsListView.render(); */

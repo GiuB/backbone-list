@@ -6,7 +6,14 @@
 		<script src="./bower_components/jquery/dist/jquery.min.js"></script>
 
 		<style>
-			#bb-content .caret { cursor: pointer; }
+			#bb-content th.order { cursor: pointer; }
+			#bb-content th.order[data-order="desc"] .caret { border-top: 0; border-bottom: 4px dashed; }
+			#bb-content th {
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
 		</style>
 	</head>
 	<body class="container">
@@ -25,15 +32,15 @@
 			<table id="bb-content" class="table table-bordered table-striped table-hover">
 				<thead>
 					<tr>
-						<th class="order" data-col="id" data-order-by="desc">
+						<th class="order" data-sort="id" data-order="asc">
 							# <span class="caret"></span>
 						</th>
 						<th>Title</th>
 						<th>Description</th>
-						<th class="order" data-col="price" data-order-by="desc">
+						<th class="order" data-sort="price" data-order="asc">
 							Price <span class="caret"></span>
 						</th>
-						<th class="order" data-col="create_date" data-order-by="desc">
+						<th class="order" data-sort="create_date" data-order="asc">
 							Date <span class="caret"></span>
 						</th>
 						<th>Action</th>
