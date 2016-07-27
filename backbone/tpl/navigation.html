@@ -1,0 +1,17 @@
+<ul class="pagination pagination-sm">
+	<li>
+		<a href="#page/<%= firstPage %>" aria-label="Previous">
+			<span aria-hidden="true">«</span>
+		</a>
+	</li>
+	<% _.each(pages, function(el) { %>
+		<li class="<%= el.isCurrent ? 'active' : '' %>">
+			<a href="<%= el.href %>"><%= el.text %></a>
+		</li>
+	<% }); %>
+	<li>
+		<a href="#page/<%= lastPage %>" aria-label="Next">
+			<span aria-hidden="true">»</span>
+		</a>
+	</li>
+</ul>

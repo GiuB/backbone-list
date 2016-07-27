@@ -53,8 +53,8 @@ function sqlGetItems() {
 	// Build limit
 	$limit = "LIMIT " . PAGINATION_SIZE . "";
 	if (!empty($params['page']) && (int)$params['page'] > 1) {
-		$offset = (int)$params['page'] * PAGINATION_SIZE;
-		$limit = "LIMIT " . PAGINATION_SIZE . ", $offset";
+		$offset = ((int)$params['page'] - 1) * PAGINATION_SIZE;
+		$limit = "LIMIT $offset, " .PAGINATION_SIZE;
 	}
 
 	$where_sql = "";
@@ -67,6 +67,8 @@ function sqlGetItems() {
 		$where_sql . " " .
 		$order . " " .
 		$limit;
+
+	//echo $sql; exit;
 
 	$res   = $conn->query($sql);
 	$total = $conn->query("SELECT FOUND_ROWS() AS total");

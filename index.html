@@ -6,6 +6,8 @@
 		<script src="./bower_components/jquery/dist/jquery.min.js"></script>
 
 		<style>
+			.bb-tot-col { margin-top: 15px; }
+			.pagination { margin: 0 0 20px; }
 			#bb-content th.order { cursor: pointer; }
 			#bb-content th.order[data-order="desc"] .caret { border-top: 0; border-bottom: 4px dashed; }
 			#bb-content th {
@@ -20,11 +22,11 @@
 		<h1>Backbone List</h1>
 
 		<div class="bb-navigation row">
-			<div class="col-sm-4">
+			<div class="col-sm-4 bb-tot-col">
 				Total rows: <span id="bbi-total-counter">0</span>
 			</div>
-			<div class="col-sm-6">
-				navigation
+			<div class="col-sm-8 text-right">
+				<nav id="bb-nav"></nav>
 			</div>
 		</div>
 
@@ -65,6 +67,7 @@
 		<script src="./backbone/pageable.collection.list.js"></script>
 		<script src="./backbone/view.item.js"></script>
 		<script src="./backbone/view.list.js"></script>
+		<script src="./backbone/view.nav.js"></script>
 		<script src="./backbone/app.js"></script>
 	</body>
 </html>

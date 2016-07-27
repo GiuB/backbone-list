@@ -1,11 +1,10 @@
 var ItemsListView = Backbone.View.extend({
   rootID: 'bb-content',
   tagName: 'tbody',
-  events: {
-    'click th.order': 'sortUpdate'
-  },
 
   initialize: function(){
+    this.itemsNav  = new ItemsNavView();
+
     this.collection.on('add', this.addOne, this);
     this.collection.on('reset', this.addAll, this);
     this.collection.on('update', this.render, this);
@@ -39,10 +38,23 @@ var ItemsListView = Backbone.View.extend({
 
     // Prepare pagination sorting
     this.collection.state.sortKey = col.data('sort');
-    this.collection.state.order   = order === 'desc'? 1 : 'asc';
+    this.collection.state.order   = order === 'desc'? 1 : -1;
 
     // Fetch data
     this.collection.fetch();
+  },
+
+  navRender: function() {
+    this.itemsNav.render({
+      previous: this.collection.hasPreviousPage()? this.collection.state.currentPage - 1 : false,
+      hasPrevious: this.collection.hasPreviousPage(),
+      next: this.collection.hasNextPage()? this.collection.state.currentPage + 1 : false,
+      hasNext: this.collection.hasNextPage(),
+      currentPage: this.collection.state.currentPage,
+      totalPages: this.collection.state.totalPages,
+      firstPage: this.collection.state.firstPage,
+      lastPage: this.collection.state.totalPages
+    });
   },
 
   render: function(){
@@ -57,6 +69,9 @@ var ItemsListView = Backbone.View.extend({
 
     // Add all items to html
     $('#' + this.rootID).append(this.$el);
+
+    // Update nav
+    this.navRender();
   }
 
 });
